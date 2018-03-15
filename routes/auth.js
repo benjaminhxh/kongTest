@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('jwt-simple');
 
 /* GET auth listing. */
 router.get('/', function(req, res, next) {
@@ -7,6 +8,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next){
+  var playload = {'name':'fooke'};
+  var secret = 'xZa1234tyubjh';
+  var token = jwt.encode(playload, secret);
+  console.log('token:',token);
+  var decoded = jwt.decode(token, secret);
+  console.log('decoded:',decoded);
   res.send('come from auth/login response');
 });
 
