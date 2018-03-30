@@ -1,17 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jwt-simple');
-var secret = 't4rGKecds7gZtrZRRxWpHPD8q09ElXNa';
-
-/* GET auth listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond auth with a resource');
-});
+var secret = 't4rGKecds7gZtrZRRxWpHPD8q09ElXNa';// jwt插件创建consumer分配的key和secret
+var key = 'CgM4qgM3wLyBlFsiAI4jOU4Dh2TcTCGr';
 
 router.post('/login', function(req, res, next){
   var uname = req.body.username;
   var pwd = req.body.password;
   console.log('uname:%s ,pwd:%s',uname,pwd);
+  //判空
   if(!uname||!pwd){
     res.json({
       resultcode:-1,
@@ -22,9 +19,9 @@ router.post('/login', function(req, res, next){
   }
   //TODO 数据库查询用户名密码
 
-  //jwt
-  var playload = {'name':uname};
-  var token = jwt.encode(playload, secret);
+  //生成jwt，返回
+  var payload = {'iss':key};
+  var token = jwt.encode(payload, secret);
   console.log('token:',token);
   var decoded = jwt.decode(token, secret);
   console.log('decoded:',decoded);
@@ -36,7 +33,6 @@ router.post('/login', function(req, res, next){
       username:uname
     }
   });
-  // res.send('come from auth/login response');
 });
 
 router.get('/logout', function(req, res, next){
